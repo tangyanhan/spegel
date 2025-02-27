@@ -237,11 +237,11 @@ func (c *Containerd) ListImages(ctx context.Context) ([]Image, error) {
 func (c *Containerd) Resolve(ctx context.Context, ref string) (digest.Digest, error) {
 	client, err := c.Client()
 	if err != nil {
-		return "", err
+		return "", fmt.Errorf("containerd.Resolve: get client error:%v", err)
 	}
 	cImg, err := client.GetImage(ctx, ref)
 	if err != nil {
-		return "", err
+		return "", fmt.Errorf("containerd.Resolve: GetImage:%v", err)
 	}
 	return cImg.Target().Digest, nil
 }

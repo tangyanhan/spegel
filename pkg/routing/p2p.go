@@ -154,7 +154,7 @@ func (r *P2PRouter) Resolve(ctx context.Context, key string, allowSelf bool, cou
 	log := logr.FromContextOrDiscard(ctx).WithValues("host", r.host.ID().String(), "key", key)
 	c, err := createCid(key)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("p2pRouter.Reolve: createCid:%v", err)
 	}
 	// If using unlimited retries (count=0), ensure that the peer address channel
 	// does not become blocking by using a reasonable non-zero buffer size.
@@ -167,8 +167,10 @@ func (r *P2PRouter) Resolve(ctx context.Context, key string, allowSelf bool, cou
 	go func() {
 		resolveTimer := prometheus.NewTimer(metrics.ResolveDurHistogram.WithLabelValues("libp2p"))
 		for info := range addrCh {
+			log.Info("range addr ch", "info:", info)
 			resolveTimer.ObserveDuration()
 			if !allowSelf && info.ID == r.host.ID() {
+				log.Info("hit self request: allowSelf=", allowSelf, "infoId:", info.ID)
 				continue
 			}
 			if len(info.Addrs) != 1 {
@@ -193,10 +195,12 @@ func (r *P2PRouter) Resolve(ctx context.Context, key string, allowSelf bool, cou
 			// Don't block if the client has disconnected before reading all values from the channel
 			select {
 			case peerCh <- peer:
+				log.Info("Received peer from:", "peer", peer.String(), "addr", peer.Addr().String(), "pot", peer.Port())
 			default:
 				log.V(4).Info("mirror endpoint dropped: peer channel is full")
 			}
 		}
+		log.Info("Close peer ch")
 		close(peerCh)
 	}()
 	return peerCh, nil
