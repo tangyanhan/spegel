@@ -3,12 +3,16 @@ IMG_NAME ?= ghcr.io/spegel-org/spegel
 IMG_REF = $(IMG_NAME):$(TAG)
 E2E_PROXY_MODE ?= iptables
 E2E_IP_FAMILY ?= ipv4
+PLATFORMS="linux/amd64,linux/arm64"
 
 lint:
 	golangci-lint run ./...
 
 docker-build:
 	docker build -t ${IMG_REF} .
+
+docker-buildx:
+	docker buildx build --platform linux/amd64,linux/arm64 --push -t ${IMG_REF} . -f Dockerfile.cross  --provenance=false
 
 test-unit:
 	go test ./...
