@@ -1,0 +1,81 @@
+image:
+  repository: harbor.infini-ai.com/mizar/spegel-org/spegel
+  pullPolicy: IfNotPresent
+  tag: "v0.0.28"
+
+imagePullSecrets:
+- name: mizar-robot
+service:
+  registry:
+    # -- Override the NODE_ID environment variable. It defaults to the field status.hostIP
+    nodeIp: ""
+    # -- Port to expose the registry via the service.
+    port: 5000
+    # -- Node port to expose the registry via the service.
+    nodePort: 30021
+    # -- Local host port to expose the registry.
+    hostPort: 30020
+    # -- If true adds topology aware hints annotation to node port service.
+    topologyAwareHintsEnabled: true
+  router:
+    # -- Port to expose the router via the service.
+    port: 5001
+  metrics:
+    # -- Port to expose the metrics via the service.
+    port: 9090
+
+# -- Resource requests and limits for the Spegel container.
+resources: {}
+
+# -- Node selector for pod assignment.
+nodeSelector:
+  kubernetes.io/os: linux
+  nvidia.gpu: "true"
+
+# -- Tolerations for pod assignment.
+tolerations:
+  - key: CriticalAddonsOnly
+    operator: Exists
+  - effect: NoExecute
+    operator: Exists
+  - effect: NoSchedule
+    operator: Exists
+
+
+serviceMonitor:
+  # -- If true creates a Prometheus Service Monitor.
+  enabled: true
+  # -- Prometheus scrape interval.
+  interval: 60s
+  # -- Prometheus scrape interval timeout.
+  scrapeTimeout: 30s
+  # -- Service monitor specific labels for prometheus to discover servicemonitor.
+  labels:
+    monitoring: default
+  # -- List of relabeling rules to apply the target’s metadata labels.
+
+# -- Priority class name to use for the pod.
+priorityClassName: system-node-critical
+
+spegel:
+  # -- Minimum log level to output. Value should be DEBUG, INFO, WARN, or ERROR.
+  logLevel: "INFO"
+  # -- Registries for which mirror configuration will be created.
+  registries:
+    - https://harbor.infini-ai.com
+    - https://cr.infini-ai.com
+  # -- Additional target mirror registries other than Spegel.
+  additionalMirrorRegistries: []
+  # -- Max ammount of mirrors to attempt.
+  mirrorResolveRetries: 3
+  # -- Max duration spent finding a mirror.
+  mirrorResolveTimeout: "250ms"
+  # -- Path to Containerd socket.
+  containerdSock: "/run/k3s/containerd/containerd.sock"
+  # -- Containerd namespace where images are stored.
+  containerdNamespace: "k8s.io"
+  # -- Path to Containerd mirror configuration.
+  containerdRegistryConfigPath: "/var/lib/rancher/rke2/agent/etc/containerd/certs.d"
+  # -- Path to Containerd content store..
+  containerdContentPath: "/var/lib/rancher/rke2/agent/containerd/io.containerd.content.v1.content"
+

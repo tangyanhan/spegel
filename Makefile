@@ -1,6 +1,6 @@
 TAG = $$(git rev-parse --short HEAD)
 IMG_NAME ?= ghcr.io/spegel-org/spegel
-IMG_REF = $(IMG_NAME):$(TAG)
+IMG_REF ?= $(IMG_NAME):$(TAG)
 E2E_PROXY_MODE ?= iptables
 E2E_IP_FAMILY ?= ipv4
 

@@ -1,0 +1,623 @@
+apiVersion: v1
+items:
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      k8s.v1.cni.cncf.io/network-status: |-
+        [{
+            "name": "portmap",
+            "interface": "eth0",
+            "ips": [
+                "10.200.5.44"
+            ],
+            "mac": "fe:35:33:31:c1:d4",
+            "default": true,
+            "dns": {},
+            "gateway": [
+                "10.200.5.9"
+            ]
+        }]
+    creationTimestamp: "2024-12-02T07:31:02Z"
+    generateName: preheat-
+    labels:
+      app: preheat
+      controller-revision-hash: 6c7b5b8b7
+      pod-template-generation: "1"
+    name: preheat-6sqxp
+    namespace: default
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: DaemonSet
+      name: preheat
+      uid: c104798c-57db-48e9-997e-30060175285c
+    resourceVersion: "555256052"
+    uid: 60b50ed1-0e4e-432d-be2d-6faeef5945b5
+  spec:
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchFields:
+            - key: metadata.name
+              operator: In
+              values:
+              - infiniai-nxdx-a01-04
+    containers:
+    - args:
+      - -c
+      - sleep infinity
+      command:
+      - /bin/sh
+      image: harbor.infini-ai.com/infini-maas/pytorch:2.4.0-cuda12.4-cudnn9-devel
+      imagePullPolicy: Always
+      name: main
+      resources: {}
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-kv8vb
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    imagePullSecrets:
+    - name: mizar-pull
+    nodeName: infiniai-nxdx-a01-04
+    nodeSelector:
+      nvidia.gpu: "true"
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: default
+    serviceAccountName: default
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/disk-pressure
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/memory-pressure
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/pid-pressure
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/unschedulable
+      operator: Exists
+    volumes:
+    - name: kube-api-access-kv8vb
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2024-12-02T07:31:02Z"
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2024-12-02T07:32:25Z"
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2024-12-02T07:32:25Z"
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2024-12-02T07:31:02Z"
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: containerd://a51c304d05f30f4200bc9146534a20532ca479843839a082f88d84cee8f646a0
+      image: harbor.infini-ai.com/infini-maas/pytorch:2.4.0-cuda12.4-cudnn9-devel
+      imageID: harbor.infini-ai.com/infini-maas/pytorch@sha256:e96c6896ecfbb50d89c87bf94110206ef444f27268c5f72201eb29fba9c90331
+      lastState: {}
+      name: main
+      ready: true
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2024-12-02T07:32:24Z"
+    hostIP: 10.11.11.10
+    phase: Running
+    podIP: 10.200.5.44
+    podIPs:
+    - ip: 10.200.5.44
+    qosClass: BestEffort
+    startTime: "2024-12-02T07:31:02Z"
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      k8s.v1.cni.cncf.io/network-status: |-
+        [{
+            "name": "portmap",
+            "interface": "eth0",
+            "ips": [
+                "10.200.3.41"
+            ],
+            "mac": "32:7f:d7:b7:0b:fb",
+            "default": true,
+            "dns": {},
+            "gateway": [
+                "10.200.3.143"
+            ]
+        }]
+    creationTimestamp: "2024-12-02T07:31:02Z"
+    generateName: preheat-
+    labels:
+      app: preheat
+      controller-revision-hash: 6c7b5b8b7
+      pod-template-generation: "1"
+    name: preheat-8m8bb
+    namespace: default
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: DaemonSet
+      name: preheat
+      uid: c104798c-57db-48e9-997e-30060175285c
+    resourceVersion: "555254124"
+    uid: 95a63e19-6feb-4d47-a1be-1f6a63ff0b12
+  spec:
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchFields:
+            - key: metadata.name
+              operator: In
+              values:
+              - infiniai-nxdx-b01-11
+    containers:
+    - args:
+      - -c
+      - sleep infinity
+      command:
+      - /bin/sh
+      image: harbor.infini-ai.com/infini-maas/pytorch:2.4.0-cuda12.4-cudnn9-devel
+      imagePullPolicy: Always
+      name: main
+      resources: {}
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-kdcmj
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    imagePullSecrets:
+    - name: mizar-pull
+    nodeName: infiniai-nxdx-b01-11
+    nodeSelector:
+      nvidia.gpu: "true"
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: default
+    serviceAccountName: default
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/disk-pressure
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/memory-pressure
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/pid-pressure
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/unschedulable
+      operator: Exists
+    volumes:
+    - name: kube-api-access-kdcmj
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2024-12-02T07:31:02Z"
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2024-12-02T07:31:05Z"
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2024-12-02T07:31:05Z"
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2024-12-02T07:31:02Z"
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: containerd://7a547b4b934b3242733f570a7d15fe8468a62c404f001d97428fb5e6ef501e2e
+      image: harbor.infini-ai.com/infini-maas/pytorch:2.4.0-cuda12.4-cudnn9-devel
+      imageID: harbor.infini-ai.com/infini-maas/pytorch@sha256:e96c6896ecfbb50d89c87bf94110206ef444f27268c5f72201eb29fba9c90331
+      lastState: {}
+      name: main
+      ready: true
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2024-12-02T07:31:05Z"
+    hostIP: 10.11.11.23
+    phase: Running
+    podIP: 10.200.3.41
+    podIPs:
+    - ip: 10.200.3.41
+    qosClass: BestEffort
+    startTime: "2024-12-02T07:31:02Z"
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      k8s.v1.cni.cncf.io/network-status: |-
+        [{
+            "name": "portmap",
+            "interface": "eth0",
+            "ips": [
+                "10.200.7.92"
+            ],
+            "mac": "02:02:e0:ff:d3:6e",
+            "default": true,
+            "dns": {},
+            "gateway": [
+                "10.200.7.150"
+            ]
+        }]
+    creationTimestamp: "2024-12-02T07:31:02Z"
+    generateName: preheat-
+    labels:
+      app: preheat
+      controller-revision-hash: 6c7b5b8b7
+      pod-template-generation: "1"
+    name: preheat-9vq6z
+    namespace: default
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: DaemonSet
+      name: preheat
+      uid: c104798c-57db-48e9-997e-30060175285c
+    resourceVersion: "555254118"
+    uid: 33d7bbd3-bfa8-4a03-b213-94e1c6d1334c
+  spec:
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchFields:
+            - key: metadata.name
+              operator: In
+              values:
+              - infiniai-nxdx-b01-10
+    containers:
+    - args:
+      - -c
+      - sleep infinity
+      command:
+      - /bin/sh
+      image: harbor.infini-ai.com/infini-maas/pytorch:2.4.0-cuda12.4-cudnn9-devel
+      imagePullPolicy: Always
+      name: main
+      resources: {}
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-pl5dd
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    imagePullSecrets:
+    - name: mizar-pull
+    nodeName: infiniai-nxdx-b01-10
+    nodeSelector:
+      nvidia.gpu: "true"
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: default
+    serviceAccountName: default
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/disk-pressure
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/memory-pressure
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/pid-pressure
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/unschedulable
+      operator: Exists
+    volumes:
+    - name: kube-api-access-pl5dd
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2024-12-02T07:31:02Z"
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2024-12-02T07:31:05Z"
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2024-12-02T07:31:05Z"
+      status: "True"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2024-12-02T07:31:02Z"
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: containerd://00ed8c56b2877c3dbbdedb2c3dc2fb1f50514df50425a600d288702b19361c23
+      image: harbor.infini-ai.com/infini-maas/pytorch:2.4.0-cuda12.4-cudnn9-devel
+      imageID: harbor.infini-ai.com/infini-maas/pytorch@sha256:e96c6896ecfbb50d89c87bf94110206ef444f27268c5f72201eb29fba9c90331
+      lastState: {}
+      name: main
+      ready: true
+      restartCount: 0
+      started: true
+      state:
+        running:
+          startedAt: "2024-12-02T07:31:04Z"
+    hostIP: 10.11.11.22
+    phase: Running
+    podIP: 10.200.7.92
+    podIPs:
+    - ip: 10.200.7.92
+    qosClass: BestEffort
+    startTime: "2024-12-02T07:31:02Z"
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      k8s.v1.cni.cncf.io/network-status: |-
+        [{
+            "name": "portmap",
+            "interface": "eth0",
+            "ips": [
+                "10.200.4.130"
+            ],
+            "mac": "62:99:da:45:38:d9",
+            "default": true,
+            "dns": {},
+            "gateway": [
+                "10.200.4.19"
+            ]
+        }]
+    creationTimestamp: "2024-12-02T07:31:02Z"
+    generateName: preheat-
+    labels:
+      app: preheat
+      controller-revision-hash: 6c7b5b8b7
+      pod-template-generation: "1"
+    name: preheat-m75t8
+    namespace: default
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: DaemonSet
+      name: preheat
+      uid: c104798c-57db-48e9-997e-30060175285c
+    resourceVersion: "555362973"
+    uid: a7cea40c-6394-425e-b78c-453d6b25e2de
+  spec:
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchFields:
+            - key: metadata.name
+              operator: In
+              values:
+              - infiniai-nxdx-b01-06
+    containers:
+    - args:
+      - -c
+      - sleep infinity
+      command:
+      - /bin/sh
+      image: harbor.infini-ai.com/infini-maas/pytorch:2.4.0-cuda12.4-cudnn9-devel
+      imagePullPolicy: Always
+      name: main
+      resources: {}
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: kube-api-access-ckf64
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    enableServiceLinks: true
+    imagePullSecrets:
+    - name: mizar-pull
+    nodeName: infiniai-nxdx-b01-06
+    nodeSelector:
+      nvidia.gpu: "true"
+    preemptionPolicy: PreemptLowerPriority
+    priority: 0
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: default
+    serviceAccountName: default
+    terminationGracePeriodSeconds: 30
+    tolerations:
+    - effect: NoExecute
+      key: node.kubernetes.io/not-ready
+      operator: Exists
+    - effect: NoExecute
+      key: node.kubernetes.io/unreachable
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/disk-pressure
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/memory-pressure
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/pid-pressure
+      operator: Exists
+    - effect: NoSchedule
+      key: node.kubernetes.io/unschedulable
+      operator: Exists
+    volumes:
+    - name: kube-api-access-ckf64
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 3607
+            path: token
+        - configMap:
+            items:
+            - key: ca.crt
+              path: ca.crt
+            name: kube-root-ca.crt
+        - downwardAPI:
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+              path: namespace
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2024-12-02T07:31:02Z"
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: "2024-12-02T07:31:02Z"
+      message: 'containers with unready status: [main]'
+      reason: ContainersNotReady
+      status: "False"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: "2024-12-02T07:31:02Z"
+      message: 'containers with unready status: [main]'
+      reason: ContainersNotReady
+      status: "False"
+      type: ContainersReady
+    - lastProbeTime: null
+      lastTransitionTime: "2024-12-02T07:31:02Z"
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: containerd://62d8da1b004896c635e816ec18cad02fd5ae03187982d6486fc66fd5ddc251f8
+      image: harbor.infini-ai.com/infini-maas/pytorch:2.4.0-cuda12.4-cudnn9-devel
+      imageID: harbor.infini-ai.com/infini-maas/pytorch@sha256:e96c6896ecfbb50d89c87bf94110206ef444f27268c5f72201eb29fba9c90331
+      lastState:
+        terminated:
+          containerID: containerd://62d8da1b004896c635e816ec18cad02fd5ae03187982d6486fc66fd5ddc251f8
+          exitCode: 128
+          finishedAt: "2024-12-02T08:46:55Z"
+          message: |-
+            failed to create containerd task: failed to create shim task: OCI runtime create failed: runc create failed: unable to start container process: error during container init: error running hook #0: error running hook: exit status 1, stdout: , stderr: Auto-detected mode as 'legacy'
+            nvidia-container-cli: initialization error: nvml error: driver not loaded: unknown
+          reason: StartError
+          startedAt: "1970-01-01T00:00:00Z"
+      name: main
+      ready: false
+      restartCount: 19
+      started: false
+      state:
+        waiting:
+          message: back-off 5m0s restarting failed container=main pod=preheat-m75t8_default(a7cea40c-6394-425e-b78c-453d6b25e2de)
+          reason: CrashLoopBackOff
+    hostIP: 10.11.11.21
+    phase: Running
+    podIP: 10.200.4.130
+    podIPs:
+    - ip: 10.200.4.130
+    qosClass: BestEffort
+    startTime: "2024-12-02T07:31:02Z"
+kind: List
+metadata:
+  resourceVersion: ""
