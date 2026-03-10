@@ -551,11 +551,10 @@ func templateHosts(mirroredRegistry url.URL, mirrorTargets []url.URL, capabiliti
 		Capabilities:  fmt.Sprintf("['%s']", strings.Join(capabilities, "', '")),
 		MirrorTargets: mirrorTargets,
 		Authorization: authorization,
-		Insecure:      os.Getenv("INSECURE"),
+		Insecure:      os.Getenv("INSECURE") == "TRUE" || os.Getenv("INSECURE") == "1",
 	}
 	tmpl, err := template.New("").Parse(`{{- with .Server }}server = '{{ . }}'{{ end }}
 {{- $authorization := .Authorization }}
-{{- $inscure := .Insecure }}
 {{ range .MirrorTargets }}
 [host.'{{ .String }}']
 capabilities = {{ $.Capabilities }}
@@ -563,8 +562,7 @@ capabilities = {{ $.Capabilities }}
 [host.'{{ .String }}'.header]
 Authorization = '{{ $authorization }}'
 [host.'{{ .String }}'.tls]
-insecure_skip_verify = {{ $insecure }}
-{{- end }}
+insecure_skip_verify = {{ $.Insecure }}
 {{- end }}
 {{ end }}`)
 	if err != nil {

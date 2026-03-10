@@ -17,6 +17,7 @@ import (
 	"time"
 
 	"github.com/alexflint/go-arg"
+	"github.com/fsnotify/fsnotify"
 	"github.com/go-logr/logr"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/spf13/afero"
@@ -143,6 +144,12 @@ func registryCommand(ctx context.Context, args *RegistryCmd) (err error) {
 		return err
 	}
 
+	ctx, stopApp, err := watchContainerdSocket(ctx, args.ContainerdSock)
+	if err != nil {
+		return err
+	}
+	defer stopApp()
+
 	// OCI Client
 	ociClient, err := oci.NewContainerd(args.ContainerdSock, args.ContainerdNamespace, args.ContainerdRegistryConfigPath, args.MirroredRegistries, oci.WithContentPath(args.ContainerdContentPath))
 	if err != nil {
@@ -255,6 +262,36 @@ func registryCommand(ctx context.Context, args *RegistryCmd) (err error) {
 		return err
 	}
 	return nil
+}
+
+func watchContainerdSocket(ctx context.Context, socketPath string) (context.Context, func(), error) {
+	log := logr.FromContextOrDiscard(ctx)
+
+	watcher, err := fsnotify.NewWatcher()
+	if err != nil {
+		return ctx, nil, err
+	}
+	defer watcher.Close()
+	watcher.Add(socketPath)
+
+	ctx, stopApp := context.WithCancel(ctx)
+
+	go func() {
+		select {
+		case event := <-watcher.Events:
+			if event.Name == socketPath && event.Op&fsnotify.Create == fsnotify.Create {
+				log.Info("inotify: socket recreated, restarting.", "sock", socketPath)
+				stopApp()
+				os.Exit(1)
+			}
+		case <-ctx.Done():
+			return
+		case err := <-watcher.Errors:
+			log.Info("inotify: ", "error", err)
+			// Watch for any signals from the OS. On SIGHU
+		}
+	}()
+	return ctx, stopApp, nil
 }
 
 func getBootstrapper(cfg BootstrapConfig) (routing.Bootstrapper, error) { //nolint: ireturn // Return type can be different structs.

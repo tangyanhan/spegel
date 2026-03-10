@@ -1,5 +1,5 @@
-TAG = $$(git rev-parse --short HEAD)
-IMG_NAME ?= ghcr.io/spegel-org/spegel
+TAG ?= $$(git rev-parse --short HEAD)
+IMG_NAME ?= harbor.infini-ai.com/mizar/spegel-org/spegel
 IMG_REF ?= $(IMG_NAME):$(TAG)
 E2E_PROXY_MODE ?= iptables
 E2E_IP_FAMILY ?= ipv4
@@ -10,8 +10,14 @@ lint:
 build:
 	goreleaser build --snapshot --clean --single-target --skip before
 
+build-cross:
+	@goreleaser build --snapshot --clean
+
 build-image: build
 	docker build -t ${IMG_REF} .
+
+build-image-cross: build-cross
+	@docker buildx build --platform linux/amd64,linux/arm64 -t ${IMG_REF} --push .
 
 test-unit:
 	go test ./...
